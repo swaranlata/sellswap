@@ -18,8 +18,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('title')->nullable();
             $table->text('content')->nullable();
             $table->integer('category')->nullable();
-            $table->string('image')->nullable();
-            });
+          });
     }
 
     /**
