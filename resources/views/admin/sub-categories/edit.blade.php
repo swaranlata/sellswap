@@ -1,37 +1,55 @@
-@extends('layouts.app')
-
+@extends('layouts.admin')
 @section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
+<section class="content-header">
+  <h1>
+  SubCategory Management
+   
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Sub Category</a></li>
+    <li class="active">Edit SubCategory</li>
+  </ol>
+</section>
 
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Edit SubCategory #{{ $subcategory->id }}</div>
-                    <div class="card-body">
-                        <a href="{{ url('/admin/sub-categories') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
-
-                        @if ($errors->any())
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-9">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Subcategory</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+          @if ($errors->any())
                             <ul class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
                         @endif
+        <form role="form" method="POST" action="{{ url('/admin/sub-categories/' . $subcategory->id) }}" accept-charset="UTF-8" enctype="multipart/form-data">
+            @if ($errors->any())
+                <ul class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+            {{ method_field('PATCH') }}
+            {{ csrf_field() }}
 
-                        <form method="POST" action="{{ url('/admin/sub-categories/' . $subcategory->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
-                            {{ csrf_field() }}
-
-                            @include ('admin.sub-categories.form', ['submitButtonText' => 'Update'])
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+            @include ('admin.sub-categories.form', ['submitButtonText' => 'Update'])        
+        </form>
+      </div>
+      <!-- /.box -->  
     </div>
+    <!--/.col (left) -->
+
+  </div>
+  <!-- /.row -->
+</section>   
 @endsection

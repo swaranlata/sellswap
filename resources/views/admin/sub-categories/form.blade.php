@@ -13,16 +13,25 @@
     </div>
     <div class="form-group {{ $errors->has('category') ? 'has-error' : ''}}">
         <label for="category" >{{ 'Category' }}</label>
-            <input class="form-control" name="category" type="number" id="category" value="{{ $subcategory->category or ''}}" >
+       
+            <select class="form-control"  name="category">
+                <option value="">Select</option>
+                 <?php if(!empty($categories)){
+                        foreach($categories as $k=>$v){
+                            $selected='';
+                            if($v->id==$subcategory->category){
+                              $selected='selected';  
+                            }
+                            ?>
+                            <option {{$selected}} value="{{$v->id}}">{{$v->title}}</option>
+                          <?php
+                        }
+            } ?>                
+            </select>
             {!! $errors->first('category', '<p class="help-block">:message</p>') !!}
 
     </div>
-    <div class="form-group {{ $errors->has('image') ? 'has-error' : ''}}">
-        <label for="image" >{{ 'Image' }}</label>
-            <input class="form-control" name="image" type="file" id="image" value="{{ $subcategory->image or ''}}" >
-            {!! $errors->first('image', '<p class="help-block">:message</p>') !!}
-
-    </div>
+    
 </div>
 <div class="box-footer">
     <input class="btn btn-primary" type="submit" value="{{ $submitButtonText or 'Create' }}">

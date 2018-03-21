@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Category;
 use App\SubCategory;
 use Illuminate\Http\Request;
 
@@ -40,7 +40,8 @@ class SubCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.sub-categories.create');
+        $categories = Category::get();
+        return view('admin.sub-categories.create',compact('categories'));
     }
 
     /**
@@ -53,10 +54,8 @@ class SubCategoriesController extends Controller
     public function store(Request $request)
     {
         
-        $requestData = $request->all();
-        
+        $requestData = $request->all();       
         SubCategory::create($requestData);
-
         return redirect('admin/sub-categories')->with('flash_message', 'SubCategory added!');
     }
 
@@ -70,7 +69,6 @@ class SubCategoriesController extends Controller
     public function show($id)
     {
         $subcategory = SubCategory::findOrFail($id);
-
         return view('admin.sub-categories.show', compact('subcategory'));
     }
 
@@ -84,8 +82,8 @@ class SubCategoriesController extends Controller
     public function edit($id)
     {
         $subcategory = SubCategory::findOrFail($id);
-
-        return view('admin.sub-categories.edit', compact('subcategory'));
+         $categories = Category::get();
+        return view('admin.sub-categories.edit', compact('subcategory','categories'));
     }
 
     /**

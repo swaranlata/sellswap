@@ -13,7 +13,6 @@
     <li class="active">Add SubCategory</li>
   </ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
   <div class="row">
@@ -44,6 +43,6 @@
 
   </div>
   <!-- /.row -->
-</section>
+</section>   
 
 @endsection
