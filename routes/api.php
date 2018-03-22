@@ -27,5 +27,6 @@ Route::group(['namespace' => 'Api'],function () {
      Route::post('/users/logout', 'UsersController@logout');   
     /*Category Apis*/
      Route::get('/categories/index','CategoriesController@index');   
+     Route::get('/subcategories/index','CategoriesController@getAllSubcategories');   
 });
 

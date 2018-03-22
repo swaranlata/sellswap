@@ -15,7 +15,7 @@ class CategoriesController extends CommonsController
     public function __construct(Request $request)
     {      
         $actionName=explode('@',Route::currentRouteAction());
-        if($actionName[1]=='index'){
+        if($actionName[1]=='index' || $actionName[1]=='index'){
            $securityToken = $request->header('Authorization');
            $this->loginUser=$this->authorisation($securityToken);   
         }
@@ -40,6 +40,24 @@ class CategoriesController extends CommonsController
        }else{
           return $this->responseData(0,array(),'No Category Found.'); 
        }
+    }
+    
+    public function getAllSubcategories(Request $request){
+        $data=$request->all();
+        if(empty($data['catId'])){
+          return $this->responseData(0,array(),'Please enter the category id.');   
+        }
+        $categories=Category::with('subcategories')->where('id',$data['catId'])->first();
+        $subcategories=array();
+        if(!empty($categories) and !empty($categories->subcategories)){
+           foreach($categories->subcategories as $k=>$v){
+              $subcategories[$k]['id']=(string) $v['id'];
+              $subcategories[$k]['name']=$v['title'];              
+           }
+          return $this->responseData(1,$subcategories,'No Error Found.');  
+        }else{
+          return $this->responseData(0,array(),'No SubCategory Found.');    
+        }
     }
     
     

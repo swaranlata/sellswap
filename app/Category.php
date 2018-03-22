@@ -26,6 +26,10 @@ class Category extends Model
      * @var array
      */
     protected $fillable = ['title', 'image'];
+    
+    public function subcategories(){
+       return $this->hasMany('App\SubCategory','category')->select('title','category','id');
+    }
 
     
 }
