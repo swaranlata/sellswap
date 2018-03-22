@@ -15,12 +15,12 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-         if (Auth::user() &&  Auth::user()->role == 1) {
-             die('hhh   ');
-            return $next($request);
-          }
-        
-          return redirect('/'); 
+        echo 'here';
+        dd(Auth::user());
+          if (Auth::user() &&  Auth::user()->role == 1) {
+           return $next($request);
+          }        
+          return redirect('/admin'); 
     
     }
 }

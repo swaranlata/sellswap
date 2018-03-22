@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Post;
 use Illuminate\Http\Request;
-
+use Auth;
 class DashboardController extends Controller
 {
    
@@ -19,6 +19,12 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         return view('admin.dashboard.index');
+    }
+    
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        redirect('/login');
     }
 
     

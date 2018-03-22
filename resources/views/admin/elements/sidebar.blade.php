@@ -66,7 +66,8 @@
           </ul>
         </li>      
         <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Logout</span></a></li>
+        <li><a  href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-circle-o text-aqua"></i> <span>Logout</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

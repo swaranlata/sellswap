@@ -22,10 +22,11 @@
 <body class="hold-transition login-page">  
       @yield('content')  
 <script src="{{URL::asset('public/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('public/js/app.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{URL::asset('public/js/bootstrap.min.js')}}"></script>
 <script src="{{URL::asset('public/js/icheck.min.js')}}"></script>
-     <script src="{{ asset('public/js/app.js') }}"></script>
+     
 <script>
   $(function () {
     $('input').iCheck({
