@@ -52,9 +52,14 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        
+        if($request->file('image')){
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/category');
+            $image->move($destinationPath, $name);
+            $requestData['image']=$name;
+        }         
         Category::create($requestData);
-
         return redirect('admin/categories')->with('flash_message', 'Category added!');
     }
 
@@ -82,7 +87,6 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-
         return view('admin.categories.edit', compact('category'));
     }
 
@@ -98,10 +102,15 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        
+        if($request->file('image')){
+            $image = $request->file('image');
+            $name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/category');
+            $image->move($destinationPath, $name);
+            $requestData['image']=$name;
+        } 
         $category = Category::findOrFail($id);
         $category->update($requestData);
-
         return redirect('admin/categories')->with('flash_message', 'Category updated!');
     }
 

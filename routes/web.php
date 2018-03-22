@@ -20,7 +20,6 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'],function () {
      Route::get('logout', 'Admin\DashboardController@logout');
      Route::resource('categories', 'Admin\CategoriesController');
      Route::resource('sub-categories', 'Admin\SubCategoriesController');
-     //Route::resource('/home','Admin\DashboardController');
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

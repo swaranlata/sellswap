@@ -21,15 +21,14 @@ class SubCategoriesController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $subcategories = SubCategory::where('title', 'LIKE', "%$keyword%")
+            $subcategories = SubCategory::with('category')->where('title', 'LIKE', "%$keyword%")
                 ->orWhere('content', 'LIKE', "%$keyword%")
                 ->orWhere('category', 'LIKE', "%$keyword%")
                 ->orWhere('image', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
-            $subcategories = SubCategory::paginate($perPage);
-        }
-
+            $subcategories = SubCategory::with('category')->paginate($perPage);
+        }    
         return view('admin.sub-categories.index', compact('subcategories'));
     }
 

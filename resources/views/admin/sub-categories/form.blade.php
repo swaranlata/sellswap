@@ -1,29 +1,29 @@
 <div class="box-body">
     <div class="form-group {{ $errors->has('title') ? 'has-error' : ''}}">
         <label for="exampleInputEmail1" >{{ 'Title' }}</label>
-          <input class="form-control" name="title" type="text" id="title" value="{{ $subcategory->title or ''}}" >
+          <input required class="form-control" name="title" type="text" id="title" value="{{ $subcategory->title or ''}}" >
             {!! $errors->first('title', '<p class="help-block">:message</p>') !!}
 
     </div>
     <div class="form-group {{ $errors->has('content') ? 'has-error' : ''}}">
         <label for="content" >{{ 'Content' }}</label>
-           <textarea class="form-control" rows="5" name="content" type="textarea" id="content" >{{ $subcategory->content or ''}}</textarea>
+           <textarea required class="form-control" rows="5" name="content" type="textarea" id="content" >{{ $subcategory->content or ''}}</textarea>
             {!! $errors->first('content', '<p class="help-block">:message</p>') !!}
 
     </div>
     <div class="form-group {{ $errors->has('category') ? 'has-error' : ''}}">
         <label for="category" >{{ 'Category' }}</label>
        
-            <select class="form-control"  name="category">
+            <select  required class="form-control"  name="category">
                 <option value="">Select</option>
                  <?php if(!empty($categories)){
                         foreach($categories as $k=>$v){
                             $selected='';
-                            if($v->id==$subcategory->category){
+                            if($v->id==@$subcategory->category){
                               $selected='selected';  
                             }
                             ?>
-                            <option {{$selected}} value="{{$v->id}}">{{$v->title}}</option>
+                            <option <?php echo $selected; ?> value="{{$v->id}}">{{$v->title}}</option>
                           <?php
                         }
             } ?>                

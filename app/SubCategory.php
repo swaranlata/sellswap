@@ -26,6 +26,11 @@ class SubCategory extends Model
      * @var array
      */
     protected $fillable = ['title', 'content', 'category', 'image'];
+    
+    
+    public function category(){
+       return $this->belongsTo('App\Category','id')->select('title','id');
+    }
 
     
 }

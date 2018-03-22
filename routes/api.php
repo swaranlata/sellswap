@@ -25,5 +25,7 @@ Route::group(['namespace' => 'Api'],function () {
      Route::post('/users/edit_profile', 'UsersController@edit_profile');   
      Route::post('/users/changeNotificationStatus', 'UsersController@changeNotificationStatus');   
      Route::post('/users/logout', 'UsersController@logout');   
+    /*Category Apis*/
+     Route::get('/categories/index','CategoriesController@index');   
 });
 
