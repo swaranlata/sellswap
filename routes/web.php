@@ -12,17 +12,15 @@
 */
 Auth::routes();
 Route::get('/', function () {
-    return view('welcome');
+   return redirect('/login');
 });
 Route::group(['prefix' => 'admin','middleware'=>'auth'],function () {
      Route::resource('/', 'Admin\DashboardController');
      Route::resource('posts', 'Admin\PostsController');
+     Route::get('logout', 'Admin\DashboardController@logout');
      Route::resource('categories', 'Admin\CategoriesController');
      Route::resource('sub-categories', 'Admin\SubCategoriesController');
-     Route::get('/home', 'HomeController@index')->name('home');
+     //Route::resource('/home','Admin\DashboardController');
 });
-
-
-
-
-
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
