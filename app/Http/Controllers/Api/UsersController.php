@@ -102,6 +102,12 @@ class UsersController extends CommonsController
                   unset($facebookIdExists->password);              
                   return $this->responseData(1,$facebookIdExists,'No Error Found.');   
                }else{
+                   if(empty($data['deviceType'])){
+                      $data['deviceType']="0"; 
+                   }
+                   if(empty($data['deviceToken'])){
+                      $data['deviceToken']="0"; 
+                   }
                    $data['role']="0";
                    $data['location']="0";
                    $data['lat']="0";
@@ -142,6 +148,12 @@ class UsersController extends CommonsController
             $data['location']="0";
             $data['lat']="0";
             $data['long']="0";
+           if(empty($data['deviceType'])){
+              $data['deviceType']="0"; 
+           }
+           if(empty($data['deviceToken'])){
+              $data['deviceToken']="0"; 
+           }
            $lastinsertId=User::create($data);
            $data['userId']=(string) $lastinsertId['id'];
            unset($data['role']);

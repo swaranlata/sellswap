@@ -19,7 +19,6 @@ class SubCategoriesController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = 25;
-
         if (!empty($keyword)) {
             $subcategories = SubCategory::with('category')->where('title', 'LIKE', "%$keyword%")
                 ->orWhere('content', 'LIKE', "%$keyword%")
@@ -28,7 +27,9 @@ class SubCategoriesController extends Controller
                 ->paginate($perPage);
         } else {
             $subcategories = SubCategory::with('category')->paginate($perPage);
-        }    
+        }  
+        /*echo '<pre>';
+        print_r($subcategories);die;*/
         return view('admin.sub-categories.index', compact('subcategories'));
     }
 
