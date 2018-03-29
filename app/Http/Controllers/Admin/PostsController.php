@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Post;
+use App\Category;
 use Illuminate\Http\Request;
+use Auth;
 
 class PostsController extends Controller
 {
-   
     /**
      * Display a listing of the resource.
      *
@@ -18,16 +18,23 @@ class PostsController extends Controller
      */
     public function index(Request $request)
     {
+        
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $posts = Post::where('title', 'LIKE', "%$keyword%")
-                ->orWhere('content', 'LIKE', "%$keyword%")
+            $posts = Post::with('mycategory','mysubcategory')->where('title', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%")
                 ->orWhere('category', 'LIKE', "%$keyword%")
+                ->orWhere('subcategory', 'LIKE', "%$keyword%")
+                ->orWhere('price', 'LIKE', "%$keyword%")
+                ->orWhere('location', 'LIKE', "%$keyword%")
+                ->orWhere('lat', 'LIKE', "%$keyword%")
+                ->orWhere('long', 'LIKE', "%$keyword%")
+                ->orWhere('youtube_link', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
-            $posts = Post::paginate($perPage);
+            $posts = Post::with('mycategory','mysubcategory')->paginate($perPage);           
         }
 
         return view('admin.posts.index', compact('posts'));
@@ -40,7 +47,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $category=Category::get();
+        return view('admin.posts.create',array('category'=>$category));
     }
 
     /**
@@ -52,11 +60,9 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        
         $requestData = $request->all();
-        
+        $requestData['user_id']=Auth::user()->id;
         Post::create($requestData);
-
         return redirect('admin/posts')->with('flash_message', 'Post added!');
     }
 
@@ -69,8 +75,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-
+        $post = Post::with('mycategory','mysubcategory')->findOrFail($id);
         return view('admin.posts.show', compact('post'));
     }
 
@@ -84,8 +89,8 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-
-        return view('admin.posts.edit', compact('post'));
+        $category=Category::get();
+        return view('admin.posts.edit', compact('post','category'));
     }
 
     /**

@@ -18,8 +18,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'],function () {
      Route::resource('/', 'Admin\DashboardController');
      Route::resource('posts', 'Admin\PostsController');
      Route::get('logout', 'Admin\DashboardController@logout');
+     Route::get('categories/getAllSubcategory/{id}','Admin\CategoriesController@getAllSubcategory');
      Route::resource('categories', 'Admin\CategoriesController');
      Route::resource('sub-categories', 'Admin\SubCategoriesController');
+     Route::resource('pages', 'Admin\PagesController');
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

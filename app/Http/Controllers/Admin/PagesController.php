@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Category;
-use App\SubCategory;
+
+use App\Page;
 use Illuminate\Http\Request;
 
-class SubCategoriesController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +19,17 @@ class SubCategoriesController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = 25;
+
         if (!empty($keyword)) {
-            $subcategories = SubCategory::with('category')->where('title', 'LIKE', "%$keyword%")
-                ->orWhere('content', 'LIKE', "%$keyword%")
-                ->orWhere('category', 'LIKE', "%$keyword%")
-                ->orWhere('image', 'LIKE', "%$keyword%")
+            $pages = Page::where('title', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhere('slug', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
-            $subcategories = SubCategory::with('category')->paginate($perPage);
-        }  
-        return view('admin.sub-categories.index', compact('subcategories'));
+            $pages = Page::paginate($perPage);
+        }
+
+        return view('admin.pages.index', compact('pages'));
     }
 
     /**
@@ -38,8 +39,7 @@ class SubCategoriesController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-        return view('admin.sub-categories.create',compact('categories'));
+        return view('admin.pages.create');
     }
 
     /**
@@ -52,9 +52,11 @@ class SubCategoriesController extends Controller
     public function store(Request $request)
     {
         
-        $requestData = $request->all();       
-        SubCategory::create($requestData);
-        return redirect('admin/sub-categories')->with('flash_message', 'SubCategory added!');
+        $requestData = $request->all();
+        
+        Page::create($requestData);
+
+        return redirect('admin/pages')->with('flash_message', 'Page added!');
     }
 
     /**
@@ -66,8 +68,9 @@ class SubCategoriesController extends Controller
      */
     public function show($id)
     {
-        $subcategory = SubCategory::findOrFail($id);
-        return view('admin.sub-categories.show', compact('subcategory'));
+        $page = Page::findOrFail($id);
+
+        return view('admin.pages.show', compact('page'));
     }
 
     /**
@@ -79,9 +82,9 @@ class SubCategoriesController extends Controller
      */
     public function edit($id)
     {
-        $subcategory = SubCategory::findOrFail($id);
-         $categories = Category::get();
-        return view('admin.sub-categories.edit', compact('subcategory','categories'));
+        $page = Page::findOrFail($id);
+
+        return view('admin.pages.edit', compact('page'));
     }
 
     /**
@@ -97,10 +100,10 @@ class SubCategoriesController extends Controller
         
         $requestData = $request->all();
         
-        $subcategory = SubCategory::findOrFail($id);
-        $subcategory->update($requestData);
+        $page = Page::findOrFail($id);
+        $page->update($requestData);
 
-        return redirect('admin/sub-categories')->with('flash_message', 'SubCategory updated!');
+        return redirect('admin/pages')->with('flash_message', 'Page updated!');
     }
 
     /**
@@ -112,8 +115,8 @@ class SubCategoriesController extends Controller
      */
     public function destroy($id)
     {
-        SubCategory::destroy($id);
+        Page::destroy($id);
 
-        return redirect('admin/sub-categories')->with('flash_message', 'SubCategory deleted!');
+        return redirect('admin/pages')->with('flash_message', 'Page deleted!');
     }
 }

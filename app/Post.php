@@ -25,7 +25,15 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'content', 'category'];
+    protected $fillable = ['user_id','title', 'description', 'category', 'subcategory', 'price', 'location', 'lat', 'long', 'youtube_link'];
+    
+    public function mycategory(){
+       return $this->belongsTo('App\Category','category');
+    }
+    
+    public function mysubcategory(){
+       return $this->belongsTo('App\Subcategory','subcategory');
+    }
 
     
 }

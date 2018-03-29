@@ -27,6 +27,13 @@ Route::group(['namespace' => 'Api'],function () {
      Route::post('/users/logout', 'UsersController@logout');   
     /*Category Apis*/
      Route::get('/categories/index','CategoriesController@index');   
-     Route::get('/subcategories/index','CategoriesController@getAllSubcategories');   
+     Route::get('/subcategories/index','CategoriesController@getAllSubcategories'); 
+    /*Create Posts*/
+     Route::post('/posts/add', 'PostsController@add');   
+     Route::delete('/posts/delete', 'PostsController@delete');   
+     Route::post('/posts/edit', 'PostsController@edit');   
+    /* Pages */
+    Route::get('/pages/privacy','PagesController@privacy'); 
+    Route::get('/pages/terms','PagesController@terms'); 
 });
 

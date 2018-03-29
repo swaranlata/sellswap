@@ -28,12 +28,10 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="treeview">
-          <a href="#">
+        <li class="">
+          <a href="{{url('/admin')}}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+            
           </a>
           
         </li>
@@ -62,6 +60,35 @@
           <ul class="treeview-menu">
             <li><a href="{{url('admin/sub-categories')}}"><i class="fa fa-circle-o"></i> Manage Subategories</a></li>
             <li><a href="{{url('admin/sub-categories/create')}}"><i class="fa fa-circle-o"></i> Add Subcategory</a></li>
+          
+          </ul>
+        </li> 
+          
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Posts Management</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right"></span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('admin/posts')}}"><i class="fa fa-circle-o"></i> Manage Posts</a></li>
+            <li><a href="{{url('admin/posts/create')}}"><i class="fa fa-circle-o"></i> Add Post</a></li>
+          
+          </ul>
+        </li>  
+          <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Pages Management</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right"></span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('admin/pages')}}"><i class="fa fa-circle-o"></i> Manage Pages</a></li>
+            <li><a href="{{url('admin/pages/create')}}"><i class="fa fa-circle-o"></i> Add Pages</a></li>
           
           </ul>
         </li>      

@@ -127,4 +127,16 @@ class CategoriesController extends Controller
 
         return redirect('admin/categories')->with('flash_message', 'Category deleted!');
     }
+    
+    public function getAllSubcategory($id){
+        $subcategories=Category::with('subcategories')->where('id',$id)->first(); 
+        $html='';
+        if(!empty($subcategories['subcategories'])){
+         foreach($subcategories['subcategories'] as $k=>$v){
+            $html .='<option value="'.$v->id.'">'.$v->title.'</option>'; 
+         }
+        }
+        echo $html;
+        die;
+    }
 }

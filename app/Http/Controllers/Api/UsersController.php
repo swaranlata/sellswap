@@ -50,6 +50,18 @@ class UsersController extends CommonsController
        $userAuth=Auth::attempt(array('email'=>$data['email'],'password'=>$data['password']));
        if(!empty($userAuth)){
            $user=User::where('email',$data['email'])->select('id','name','email','deviceType','deviceToken','notificationStatus','profileImage','securityToken','location','lat','long')->first();
+           if(empty($data['deviceType'])){
+              $data['deviceType']=$user->deviceType; 
+           }
+           if(empty($data['deviceToken'])){
+              $data['deviceToken']=$user->deviceToken; 
+           }
+           if(empty($data['deviceType'])){
+              $data['deviceType']=0; 
+           }
+           if(empty($data['deviceToken'])){
+              $data['deviceToken']=0; 
+           }
            $newData['deviceType']=$data['deviceType'];
            $newData['deviceToken']=$data['deviceToken'];
            $user->update($newData);

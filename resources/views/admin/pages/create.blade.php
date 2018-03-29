@@ -1,16 +1,15 @@
 @extends('layouts.admin')
-
 @section('content')
 
 <section class="content-header">
   <h1>
-  Posts Management
+  Pages Management
    
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="#">Posts</a></li>
-    <li class="active">Add Post</li>
+    <li><a href="#">Pages</a></li>
+    <li class="active">Add Page</li>
   </ol>
 </section>
 <!-- Main content -->
@@ -21,11 +20,11 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Quick Add Post</h3>
+          <h3 class="box-title">Quick Add Page</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form" method="POST" action="{{ url('/admin/posts') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+        <form role="form" method="POST" action="{{ url('/admin/pages') }}" accept-charset="UTF-8" enctype="multipart/form-data">
             {{ csrf_field() }}
             @if ($errors->any())
                 <ul class="alert alert-danger">
@@ -34,12 +33,7 @@
                     @endforeach
                 </ul>
             @endif
-           <form method="POST" action="{{ url('/admin/posts') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-
-                            @include ('admin.posts.form')
-
-                        </form>        
+            @include ('admin.pages.form')          
         </form>
       </div>
       <!-- /.box -->  
@@ -49,10 +43,4 @@
   </div>
   <!-- /.row -->
 </section>  
-
-
-
-
-
-
 @endsection

@@ -1,37 +1,58 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
 
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Edit Post #{{ $post->id }}</div>
-                    <div class="card-body">
-                        <a href="{{ url('/admin/posts') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
+<section class="content-header">
+  <h1>
+  Posts Management
+   
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Posts</a></li>
+    <li class="active">Edit Post</li>
+  </ol>
+</section>
 
-                        @if ($errors->any())
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-9">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Edit Post</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        
+        
+            
+             <form method="POST" action="{{ url('/admin/posts/' . $post->id) }}" accept-charset="UTF-8" class="" enctype="multipart/form-data">
+                   @if ($errors->any())
                             <ul class="alert alert-danger">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
                         @endif
-
-                        <form method="POST" action="{{ url('/admin/posts/' . $post->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ method_field('PATCH') }}
                             {{ csrf_field() }}
 
                             @include ('admin.posts.form', ['submitButtonText' => 'Update'])
 
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </form>    
+       
+      </div>
+      <!-- /.box -->  
     </div>
+    <!--/.col (left) -->
+
+  </div>
+  <!-- /.row -->
+</section>   
+
+
+
 @endsection
