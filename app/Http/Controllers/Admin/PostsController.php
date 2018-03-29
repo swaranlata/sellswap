@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Category;
+use App\SubCategory;
 use Illuminate\Http\Request;
 use Auth;
 
