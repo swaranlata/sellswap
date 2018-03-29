@@ -189,7 +189,7 @@ class UsersController extends CommonsController
         }
         $user=User::where('email',$data['email'])->first();
         if(!empty($user)){
-            if(!empty($user)){
+            if(!empty($user->facebookId)){
               return $this->responseData(0,null,'You are logged in from Social Media.We are unable to process your request.');  
             }
             $plainPassword=str_random(8);
@@ -234,9 +234,6 @@ class UsersController extends CommonsController
         if(empty($data['location'])){
         return $this->responseData(0,null,'Please enter the location.');     
         }
-        if(empty($data['location'])){
-        return $this->responseData(0,null,'Please enter the location.');     
-        }
         if(empty($data['lat'])){
         return $this->responseData(0,null,'Please enter the latitude.');     
         }
@@ -254,7 +251,11 @@ class UsersController extends CommonsController
             $data['profileImage']='/users/'.$profilePic;            
         }
         $user->update($data);
-        return $this->responseData(1,'Profile has been updated.','No Error Found.');  
+        $user=User::where('email',$user->email)->select('id','name','email','deviceType','deviceToken','notificationStatus','profileImage','securityToken','location','lat','long')->first();           
+        $user['userId']=(string) $user->id;
+        $user['profileImage']=url('/').'/public/'.$user->profileImage;
+        unset($user->id);
+        return $this->responseData(1,$user,'No Error Found.');  
     }
     
     public function logout(Request $request){
