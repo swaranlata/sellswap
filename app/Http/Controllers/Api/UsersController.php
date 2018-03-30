@@ -21,8 +21,7 @@ class UsersController extends CommonsController
            $securityToken = $request->header('Authorization');
            $this->loginUser=$this->authorisation($securityToken);     
         }
-    }
-   
+    }   
     /**
      * Display a listing of the resource.
      *
