@@ -78,7 +78,7 @@
           
           </ul>
         </li>  
-          <li class="treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Pages Management</span>
@@ -89,6 +89,20 @@
           <ul class="treeview-menu">
             <li><a href="{{url('admin/pages')}}"><i class="fa fa-circle-o"></i> Manage Pages</a></li>
             <li><a href="{{url('admin/pages/create')}}"><i class="fa fa-circle-o"></i> Add Pages</a></li>
+          
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Garages Management</span>
+            <span class="pull-right-container">
+              <span class="label label-primary pull-right"></span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('admin/garages')}}"><i class="fa fa-circle-o"></i> Manage Garages</a></li>
+            <li><a href="{{url('admin/garages/create')}}"><i class="fa fa-circle-o"></i> Add Garage</a></li>
           
           </ul>
         </li>      

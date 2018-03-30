@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\File;
 class PostsController extends CommonsController
 {
     
-    public function __construct(Request $request)
-    {      
+    public function __construct(Request $request){      
         $securityToken = $request->header('Authorization');
         $this->loginUser=$this->authorisation($securityToken);  
     }
@@ -58,7 +57,7 @@ class PostsController extends CommonsController
         }
         $data['user_id']=$this->loginUser->id;
         $post=Post::create($data);
-        if(!empty($request->file('profileImage'))){  
+       /* if(!empty($request->file('profileImage'))){  
              foreach($request->file('profileImage') as $v){
                 $extension = $v->getClientOriginalExtension();
                 $filename = $v->getFilename().'.'.$extension;
@@ -70,7 +69,7 @@ class PostsController extends CommonsController
                     $profilePic = $filename;
                 }
              }            
-        }
+        }*/
         if(!empty($post)){
            return $this->responseData(1,'Post has been created successfully.','No Error Found.');  
         }else{
@@ -114,24 +113,42 @@ class PostsController extends CommonsController
         }        
         $post=Post::find($data['post_id']);
         $post->update($data);
-        if(!empty($request->file('profileImage'))){  
-             foreach($request->file('profileImage') as $v){
-                $extension = $v->getClientOriginalExtension();
-                $filename = $v->getFilename().'.'.$extension;
-                if($v->move(public_path('/posts'),$filename)){
-                    $ImagesData['moduleId']=$post->id;
-                    $ImagesData['images']=$filename;
-                    $ImagesData['type']="post";
-                    Images::create($ImagesData);                    
-                    $profilePic = $filename;
-                }
-             }            
-        }
         if(!empty($post)){
            return $this->responseData(1,'Post has been updated successfully.','No Error Found.');  
         }else{
            return $this->responseData(0,null,'Something wrong! Please try again.');   
         }     
    }
+    
+    public function uploadImage(Request $request){
+        $data=$request->all();
+        if(empty($data['profileImage'])){
+            return $this->responseData(0,null,'Please enter the image.');  
+        }
+        if(empty($data['post_id'])){
+            return $this->responseData(0,null,'Please enter the Post Id.');  
+        }
+        if(!empty($request->file('profileImage'))){  
+                $file=$request->file('profileImage');
+                $extension = $file->getClientOriginalExtension();
+                $filename =  $file->getFilename().'.'.$extension;
+                if($file->move(public_path('/posts'),$filename)){
+                    $ImagesData['moduleId']=$data['post_id'];
+                    $ImagesData['images']=$filename;
+                    $ImagesData['type']="post";
+                    Images::create($ImagesData); 
+                }        
+        }
+        return $this->responseData(1,'Post Image uploaded successfully.','No Error Found.'); 
+    }
+    
+    public function deleteImage(Request $request){
+        $data=$request->all();
+        if(empty($data['image_id'])){
+           return $this->responseData(0,null,'Please enter the Image.');  
+        }
+        Images::destroy($data['image_id']);
+        return $this->responseData(1,'Post Images deleted successfully','No Error Found.');        
+    }
  
 }
