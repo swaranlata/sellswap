@@ -55,23 +55,13 @@ class PostsController extends CommonsController
         if(empty($data['long'])){
           $data['long']="0"; 
         }
+        if(!empty($data['isfeatured'])){
+            
+        }
         $data['user_id']=$this->loginUser->id;
-        $post=Post::create($data);
-       /* if(!empty($request->file('profileImage'))){  
-             foreach($request->file('profileImage') as $v){
-                $extension = $v->getClientOriginalExtension();
-                $filename = $v->getFilename().'.'.$extension;
-                if($v->move(public_path('/posts'),$filename)){
-                    $ImagesData['moduleId']=$post->id;
-                    $ImagesData['images']=$filename;
-                    $ImagesData['type']="post";
-                    Images::create($ImagesData);                    
-                    $profilePic = $filename;
-                }
-             }            
-        }*/
+        $post=Post::create($data);      
         if(!empty($post)){
-           return $this->responseData(1,'Post has been created successfully.','No Error Found.');  
+           return $this->responseData(1,(string) $post->id,'No Error Found.');  
         }else{
            return $this->responseData(0,null,'Something wrong! Please try again.');   
         }     

@@ -16,23 +16,24 @@
       </a>
 
       <div class="navbar-custom-menu">
+        
         <ul class="nav navbar-nav">         
           <!-- Notifications: style can be found in dropdown.less -->
         
            <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{URL::asset('public/users/php2D1D.tmp.jpg')}}" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img src="{{URL::asset('public/'.Auth::user()->profileImage)}}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{ucfirst(Auth::user()->name)}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{URL::asset('public/users/php2D1D.tmp.jpg')}}" class="img-circle" alt="User Image">
+                <img src="{{URL::asset('public/'.Auth::user()->profileImage)}}" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                 {{ucfirst(Auth::user()->name)}} - Administrator
+                  <small>Member since {{date('M, Y',strtotime(Auth::user()->created_at))}}</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -46,7 +47,7 @@
                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                    <a  href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-circle-o text-aqua"></i> <span>Logout</span></a>
+                    <a  href="{{ route('logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-mail-forward"></i> <span>Logout</span></a>
                 </div>
               </li>
             </ul>

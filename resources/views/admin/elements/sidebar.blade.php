@@ -3,10 +3,10 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{URL::asset('public/users/php2D1D.tmp.jpg')}}" class="img-circle" alt="User Image">
+          <img  style="height:46px !important" src="{{URL::asset('public/'.Auth::user()->profileImage)}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>{{ucfirst(Auth::user()->name)}}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             <br>
             <br>
@@ -14,16 +14,7 @@
           <br>
             <br>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
+     
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
@@ -37,7 +28,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-barcode"></i>
             <span>Categories Management</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right"></span>
@@ -51,7 +42,7 @@
         </li>   
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-asterisk"></i>
             <span>Subcategories Management</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right"></span>
@@ -66,7 +57,7 @@
           
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-clone"></i>
             <span>Posts Management</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right"></span>
@@ -94,7 +85,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-files-o"></i>
+            <i class="fa fa-home"></i>
             <span>Garages Management</span>
             <span class="pull-right-container">
               <span class="label label-primary pull-right"></span>
@@ -108,7 +99,7 @@
         </li>      
         <li class="header">LABELS</li>
         <li><a  href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa fa-circle-o text-aqua"></i> <span>Logout</span></a></li>
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-mail-forward"></i> <span>Logout</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
