@@ -47,7 +47,7 @@ class PostsController extends CommonsController
             return $this->responseData(0,null,'Please enter the location.');  
         }
         if(empty($data['youtube_link'])){
-            return $this->responseData(0,null,'Please enter the youtube link.');  
+           // return $this->responseData(0,null,'Please enter the youtube link.');  
         }        
         if(empty($data['lat'])){
           $data['lat']="0";   
@@ -99,7 +99,7 @@ class PostsController extends CommonsController
             return $this->responseData(0,null,'Please enter the location.');  
         }
         if(empty($data['youtube_link'])){
-            return $this->responseData(0,null,'Please enter the youtube link.');  
+           // return $this->responseData(0,null,'Please enter the youtube link.');  
         }        
         $post=Post::find($data['post_id']);
         $post->update($data);
@@ -124,7 +124,7 @@ class PostsController extends CommonsController
                 $filename =  $file->getFilename().'.'.$extension;
                 if($file->move(public_path('/posts'),$filename)){
                     $ImagesData['moduleId']=$data['post_id'];
-                    $ImagesData['images']=$filename;
+                    $ImagesData['images']='/posts/'.$filename;
                     $ImagesData['type']="post";
                     Images::create($ImagesData); 
                 }        

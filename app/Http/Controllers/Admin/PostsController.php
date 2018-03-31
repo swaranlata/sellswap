@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Category;
+use App\Images;
 use App\SubCategory;
 use Illuminate\Http\Request;
 use Auth;
@@ -63,7 +64,19 @@ class PostsController extends Controller
     {
         $requestData = $request->all();
         $requestData['user_id']=Auth::user()->id;
-        Post::create($requestData);
+        $post=Post::create($requestData);
+        if(!empty($request->file('images'))){  
+             foreach($request->file('images') as $k=>$file){
+                $extension = $file->getClientOriginalExtension();
+                $filename =  $file->getFilename().'.'.$extension;
+                if($file->move(public_path('/posts'),$filename)){
+                    $ImagesData['moduleId']=$post->id;
+                    $ImagesData['images']='/posts/'.$filename;
+                    $ImagesData['type']="post";
+                    Images::create($ImagesData); 
+                }   
+             }          
+        }
         return redirect('admin/posts')->with('flash_message', 'Post added!');
     }
 
@@ -76,7 +89,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with('mycategory','mysubcategory')->findOrFail($id);
+        $post = Post::with('mycategory','mysubcategory','postimages')->findOrFail($id);
         return view('admin.posts.show', compact('post'));
     }
 
@@ -105,10 +118,21 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         
-        $requestData = $request->all();
-        
+        $requestData = $request->all();        
         $post = Post::findOrFail($id);
         $post->update($requestData);
+        if(!empty($request->file('images'))){  
+             foreach($request->file('images') as $k=>$file){
+                $extension = $file->getClientOriginalExtension();
+                $filename =  $file->getFilename().'.'.$extension;
+                if($file->move(public_path('/posts'),$filename)){
+                    $ImagesData['moduleId']=$post->id;
+                    $ImagesData['images']='/posts/'.$filename;
+                    $ImagesData['type']="post";
+                    Images::create($ImagesData); 
+                }   
+             }          
+        }
 
         return redirect('admin/posts')->with('flash_message', 'Post updated!');
     }

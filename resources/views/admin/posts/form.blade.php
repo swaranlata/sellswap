@@ -51,6 +51,26 @@
     <input required class="form-control" name="youtube_link" type="text" id="price" value="{{ $post->youtube_link or ''}}" >
         {!! $errors->first('youtube_link', '<p class="help-block">:message</p>') !!}
 </div> 
+<div class="form-group {{ $errors->has('images') ? 'has-error' : ''}}">
+    <label for="title" class="">{{ 'Images' }}</label>
+    <input required class="form-control" multiple name="images[]" type="file" id="images" >
+    <br>
+                      <?php 
+                      if(!empty($post->postimages)){
+                         foreach($post->postimages as $kk=>$vv)
+                         {
+                           ?>
+                      <a target="_blank" href="{{URL::asset('public'.$vv->images)}}">
+                          <i class="fa fa-remove"></i><img src="{{URL::asset('/public/'.$vv->images)}}" height="100px"/></a>&nbsp;&nbsp;
+                    <?php
+                         } 
+                      }
+                      
+                      ?>
+    
+    
+        
+</div> 
     
 </div>
 <div class="box-footer">

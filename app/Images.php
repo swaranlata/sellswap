@@ -11,7 +11,7 @@ class Images extends Model
      *
      * @var string
      */
-    protected $table = 'Images';
+    protected $table = 'images';
 
     /**
     * The database primary key value.

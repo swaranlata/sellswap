@@ -26,6 +26,12 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
+          <?php
+          /*echo '<pre>';
+          print_r($post->postimages);
+          die;*/
+          
+          ?>
          &nbsp; &nbsp;<a href="{{ url('/admin/posts') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <a href="{{ url('/admin/posts/' . $post->id . '/edit') }}" title="Edit Post"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
 
@@ -84,6 +90,22 @@
     <label for="title" class="">{{ 'Youtube Link' }}</label>
     <input required disabled class="form-control" name="youtube_link" type="text" id="price" value="{{ $post->youtube_link or ''}}" >
         {!! $errors->first('youtube_link', '<p class="help-block">:message</p>') !!}
+</div>
+                  <div class="form-group {{ $errors->has('youtube_link') ? 'has-error' : ''}}">
+    <label for="title" class="">{{ 'Images' }}</label>
+                      <br>
+                      <?php 
+                      if(!empty($post->postimages)){
+                         foreach($post->postimages as $kk=>$vv)
+                         {
+                           ?>
+                      <a target="_blank" href="{{URL::asset('public'.$vv->images)}}"><img src="{{URL::asset('/public/'.$vv->images)}}" height="100px"/></a>&nbsp;&nbsp;
+                    <?php
+                         } 
+                      }
+                      
+                      ?>
+
 </div> 
                   
                   
