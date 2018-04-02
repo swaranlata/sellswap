@@ -55,8 +55,9 @@ class PostsController extends CommonsController
         if(empty($data['long'])){
           $data['long']="0"; 
         }
-        if(!empty($data['isfeatured'])){
-            
+        if(!empty($data['is_featured'])){
+           $data['is_featured']="1"; 
+           $data['featured_date']=date('Y-m-d'); 
         }
         $data['user_id']=$this->loginUser->id;
         $post=Post::create($data);      
@@ -102,6 +103,10 @@ class PostsController extends CommonsController
            // return $this->responseData(0,null,'Please enter the youtube link.');  
         }        
         $post=Post::find($data['post_id']);
+        if(!empty($data['is_featured'])){
+           $data['is_featured']="1"; 
+           $data['featured_date']=date('Y-m-d'); 
+        }
         $post->update($data);
         if(!empty($post)){
            return $this->responseData(1,'Post has been updated successfully.','No Error Found.');  
@@ -139,6 +144,52 @@ class PostsController extends CommonsController
         }
         Images::destroy($data['image_id']);
         return $this->responseData(1,'Post Images deleted successfully','No Error Found.');        
+    }
+    
+    public function all(){
+        $post=Post::orderBy('id','DESC')->get(); 
+        $allPost=array();
+        if(!empty($allPost)){
+            foreach($allPost as $k=>$v){
+              $allPost[$k]['postId']=(string)$v->id;  
+              $allPost[$k]['userId']=(string)$v->user_id;  
+              $allPost[$k]['title']=(string)$v->title;  
+              $allPost[$k]['description']=(string) $v->description;  
+              $allPost[$k]['price']=(string) $v->price;  
+              $allPost[$k]['location']=(string) $v->location;  
+              $allPost[$k]['latitude']=(string) $v->lat;  
+              $allPost[$k]['longitude']=(string) $v->long;  
+              $allPost[$k]['is_featured']=(string) $v->is_featured;  
+              $allPost[$k]['featured_date']=(string) $v->is_featured;  
+              $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
+            }
+            return $this->responseData(1,$allGarage,'No error found.');
+        }else{
+          return $this->responseData(0,array(),'No data found.');  
+        }      
+    } 
+    
+    public function myPosts(){
+        $post=Post::where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get(); 
+        $allPost=array();
+        if(!empty($allPost)){
+            foreach($allPost as $k=>$v){
+              $allPost[$k]['postId']=(string)$v->id;  
+              $allPost[$k]['userId']=(string)$v->user_id;  
+              $allPost[$k]['title']=(string)$v->title;  
+              $allPost[$k]['description']=(string) $v->description;  
+              $allPost[$k]['price']=(string) $v->price;  
+              $allPost[$k]['location']=(string) $v->location;  
+              $allPost[$k]['latitude']=(string) $v->lat;  
+              $allPost[$k]['longitude']=(string) $v->long;  
+              $allPost[$k]['is_featured']=(string) $v->is_featured;  
+              $allPost[$k]['featured_date']=(string) $v->is_featured;  
+              $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
+            }
+            return $this->responseData(1,$allGarage,'No error found.');
+        }else{
+          return $this->responseData(0,array(),'No data found.');  
+        }      
     }
  
 }

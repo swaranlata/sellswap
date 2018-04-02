@@ -25,7 +25,7 @@ class Garage extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'name', 'start_date', 'end_date', 'discount','location','lat','long'];
+    protected $fillable = ['user_id', 'name', 'start_date', 'end_date', 'discount','location','lat','long','description'];
     
     public function users(){
         return $this->belongsTo('App\User','user_id');

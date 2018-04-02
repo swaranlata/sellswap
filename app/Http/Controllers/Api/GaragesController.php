@@ -40,6 +40,9 @@ class GaragesController extends CommonsController
         if(empty($data['discount'])){
             return $this->responseData(0,null,'Please enter the discount.');  
         }
+        if(empty($data['description'])){
+            return $this->responseData(0,null,'Please enter the description.');  
+        }
         if(empty($data['lat'])){
           $data['lat']="0";   
         }
@@ -93,6 +96,9 @@ class GaragesController extends CommonsController
         if(empty($data['discount'])){
             return $this->responseData(0,null,'Please enter the discount.');  
         }
+        if(empty($data['description'])){
+            return $this->responseData(0,null,'Please enter the description.');  
+        }
         if(empty($data['lat'])){
           $data['lat']="0";   
         }
@@ -112,5 +118,47 @@ class GaragesController extends CommonsController
            return $this->responseData(0,null,'Something wrong! Please try again.');   
         }     
    }
+    
+    public function all(){
+        $garage=Garage::orderBy('id','DESC')->get(); 
+        $allGarage=array();
+        if(!empty($garage)){
+            foreach($garage as $k=>$v){
+              $allGarage[$k]['garageId']=(string)$v->id;  
+              $allGarage[$k]['userId']=$v->user_id;  
+              $allGarage[$k]['garageName']=$v->name;  
+              $allGarage[$k]['startDate']=$v->start_date;  
+              $allGarage[$k]['discount']=$v->discount;  
+              $allGarage[$k]['endDate']=$v->end_date;  
+              $allGarage[$k]['location']=$v->location;  
+              $allGarage[$k]['latitude']=(string)$v->lat;  
+              $allGarage[$k]['longitude']=(string)$v->long;  
+            }
+            return $this->responseData(1,$allGarage,'No error found.');
+        }else{
+          return $this->responseData(0,array(),'No data found.');  
+        }      
+    } 
+    
+    public function myGarages(){
+        $garage=Garage::where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get(); 
+        $allGarage=array();
+        if(!empty($garage)){
+            foreach($garage as $k=>$v){
+              $allGarage[$k]['garageId']=(string)$v->id;  
+              $allGarage[$k]['userId']=$v->user_id;  
+              $allGarage[$k]['garageName']=$v->name;  
+              $allGarage[$k]['startDate']=$v->start_date;  
+              $allGarage[$k]['discount']=$v->discount;  
+              $allGarage[$k]['endDate']=$v->end_date;  
+              $allGarage[$k]['location']=$v->location;  
+              $allGarage[$k]['latitude']=(string)$v->lat;  
+              $allGarage[$k]['longitude']=(string)$v->long;  
+            }
+            return $this->responseData(1,$allGarage,'No error found.');
+        }else{
+          return $this->responseData(0,array(),'No data found.');  
+        }      
+    }
  
 }

@@ -64,12 +64,8 @@
                           <i class="fa fa-remove"></i><img src="{{URL::asset('/public/'.$vv->images)}}" height="100px"/></a>&nbsp;&nbsp;
                     <?php
                          } 
-                      }
-                      
+                      }                      
                       ?>
-    
-    
-        
 </div> 
     
 </div>

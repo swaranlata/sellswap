@@ -24,6 +24,8 @@ class CreatePostsTable extends Migration
             $table->string('location')->nullable();
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
+            $table->string('is_featured')->nullable();
+            $table->string('featured_date')->nullable();
             $table->string('youtube_link')->nullable();
             });
     }

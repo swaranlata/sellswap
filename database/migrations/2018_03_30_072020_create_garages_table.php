@@ -17,6 +17,7 @@ class CreateGaragesTable extends Migration
             $table->timestamps();
             $table->string('user_id')->nullable();
             $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('location')->nullable();
