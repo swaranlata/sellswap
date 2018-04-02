@@ -8,6 +8,7 @@ use App\Garage;
 use Illuminate\Http\Request;
 use Response;
 use Route;
+use URL;
 use Illuminate\Support\Facades\File;
 class GaragesController extends CommonsController
 {
@@ -120,7 +121,7 @@ class GaragesController extends CommonsController
    }
     
     public function all(){
-        $garage=Garage::orderBy('id','DESC')->get(); 
+        $garage=Garage::with('users')->orderBy('id','DESC')->get(); 
         $allGarage=array();
         if(!empty($garage)){
             foreach($garage as $k=>$v){
@@ -130,18 +131,34 @@ class GaragesController extends CommonsController
               $allGarage[$k]['startDate']=$v->start_date;  
               $allGarage[$k]['discount']=$v->discount;  
               $allGarage[$k]['endDate']=$v->end_date;  
+              $allGarage[$k]['description']=(string) $v->description;  
               $allGarage[$k]['location']=$v->location;  
               $allGarage[$k]['latitude']=(string)$v->lat;  
               $allGarage[$k]['longitude']=(string)$v->long;  
+              $allGarage[$k]['username']=(string) $v->users->name; 
+              if(!empty($v->users->profileImage)){
+                 $profileImage=url('/').'/public'.$v->users->profileImage;    
+              }else{
+                 $profileImage="";   
+              }
+              $allGarage[$k]['profileImage']=(string) $profileImage;  
+              $allGarage[$k]['reviewsCount']="0";  
+              $allGarage[$k]['rating']="0";  
+              $allGarage[$k]['datetime']=date('d M',strtotime($v->start_date)).' - '.date('d M',strtotime($v->end_date));  
             }
-            return $this->responseData(1,$allGarage,'No error found.');
+            if(!empty($allGarage))
+            {
+              return $this->responseData(1,$allGarage,'No error found.');                
+            }else{
+              return $this->responseData(0,array(),'No data found.');    
+            }            
         }else{
           return $this->responseData(0,array(),'No data found.');  
         }      
     } 
     
     public function myGarages(){
-        $garage=Garage::where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get(); 
+        $garage=Garage::with('users')->where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get();
         $allGarage=array();
         if(!empty($garage)){
             foreach($garage as $k=>$v){
@@ -151,14 +168,30 @@ class GaragesController extends CommonsController
               $allGarage[$k]['startDate']=$v->start_date;  
               $allGarage[$k]['discount']=$v->discount;  
               $allGarage[$k]['endDate']=$v->end_date;  
+              $allGarage[$k]['description']=(string) $v->description;  
               $allGarage[$k]['location']=$v->location;  
               $allGarage[$k]['latitude']=(string)$v->lat;  
               $allGarage[$k]['longitude']=(string)$v->long;  
+              $allGarage[$k]['username']=(string) $v->users->name; 
+              if(!empty($v->users->profileImage)){
+                 $profileImage=url('/').'/public'.$v->users->profileImage;    
+              }else{
+                 $profileImage="";   
+              }
+              $allGarage[$k]['profileImage']=(string) $profileImage;  
+              $allGarage[$k]['reviewsCount']="0";  
+              $allGarage[$k]['rating']="0";  
+              $allGarage[$k]['datetime']=date('d M',strtotime($v->start_date)).' - '.date('d M',strtotime($v->end_date));  
             }
-            return $this->responseData(1,$allGarage,'No error found.');
+            if(!empty($allGarage))
+            {
+              return $this->responseData(1,$allGarage,'No error found.');                
+            }else{
+              return $this->responseData(0,array(),'No data found.');    
+            }            
         }else{
           return $this->responseData(0,array(),'No data found.');  
-        }      
+        }
     }
  
 }

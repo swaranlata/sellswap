@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Response;
 use Hash;
 use Auth;
+use URL;
 use Route;
 class UsersController extends CommonsController
 {
@@ -65,6 +66,11 @@ class UsersController extends CommonsController
            $newData['deviceToken']=$data['deviceToken'];
            $user->update($newData);
            $user['userId']=(string) $user->id;
+            if(!empty($user->profileImage)){
+            $user['profileImage']=url('/').'/public/'.$user->profileImage;  
+            }else{
+            $user['profileImage']="";  
+            }  
            unset($user->id);
            if(!empty($user)){
               return $this->responseData(1,$user,'No Data Found.');  
@@ -151,7 +157,7 @@ class UsersController extends CommonsController
             }else{ 
                 $profilePic  = '';
             }
-           $password=$data['password'];
+            $password=$data['password'];
             $data['password']=Hash::make($password);
             $data['notificationStatus']="0";
             $data['facebookId']="0";
@@ -252,7 +258,11 @@ class UsersController extends CommonsController
         $user->update($data);
         $user=User::where('email',$user->email)->select('id','name','email','deviceType','deviceToken','notificationStatus','profileImage','securityToken','location','lat','long')->first();           
         $user['userId']=(string) $user->id;
-        $user['profileImage']=url('/').'/public/'.$user->profileImage;
+        if(!empty($user->profileImage)){
+          $user['profileImage']=url('/').'/public'.$user->profileImage;  
+        }else{
+          $user['profileImage']="";  
+        }        
         unset($user->id);
         return $this->responseData(1,$user,'No Error Found.');  
     }

@@ -34,8 +34,12 @@ class Post extends Model
     public function mysubcategory(){
        return $this->belongsTo('App\SubCategory','subcategory');
     }
+    
     public function postimages(){
        return $this->hasMany('App\Images','moduleId');
+    }
+    public function user(){
+       return $this->belongsTo('App\User','user_id');
     }
 
     

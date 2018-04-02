@@ -7,11 +7,13 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
+use App\FavoritePost;
 use App\Images;
 use Illuminate\Http\Request;
 use Response;
 use DB;
 use Route;
+use URL;
 use Illuminate\Support\Facades\File;
 class PostsController extends CommonsController
 {
@@ -58,6 +60,8 @@ class PostsController extends CommonsController
         if(!empty($data['is_featured'])){
            $data['is_featured']="1"; 
            $data['featured_date']=date('Y-m-d'); 
+        }else{
+           $data['is_featured']="0";  
         }
         $data['user_id']=$this->loginUser->id;
         $post=Post::create($data);      
@@ -106,6 +110,8 @@ class PostsController extends CommonsController
         if(!empty($data['is_featured'])){
            $data['is_featured']="1"; 
            $data['featured_date']=date('Y-m-d'); 
+        }else{
+           $data['is_featured']="0";  
         }
         $post->update($data);
         if(!empty($post)){
@@ -147,10 +153,10 @@ class PostsController extends CommonsController
     }
     
     public function all(){
-        $post=Post::orderBy('id','DESC')->get(); 
+        $post=Post::with('user')->orderBy('id','DESC')->get(); 
         $allPost=array();
-        if(!empty($allPost)){
-            foreach($allPost as $k=>$v){
+        if(!empty($post)){
+            foreach($post as $k=>$v){
               $allPost[$k]['postId']=(string)$v->id;  
               $allPost[$k]['userId']=(string)$v->user_id;  
               $allPost[$k]['title']=(string)$v->title;  
@@ -162,18 +168,34 @@ class PostsController extends CommonsController
               $allPost[$k]['is_featured']=(string) $v->is_featured;  
               $allPost[$k]['featured_date']=(string) $v->is_featured;  
               $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
+              $allPost[$k]['images']=array();               
+              $allPost[$k]['is_favorite']="0";               
+              $allPost[$k]['reviewsCount']="0";               
+              $allPost[$k]['rating']="0";  
+              if(!empty($v->user->profileImage)){
+                 $profileImage=public_path().$v->user->profileImage;    
+              }else{
+                 $profileImage="";   
+              }
+              $allPost[$k]['profileImage']=(string) $profileImage;               
+              $allPost[$k]['username']=$v->user->name;               
+              $allPost[$k]['postedTime']=date('h:i A',strtotime($v->created_at));               
             }
-            return $this->responseData(1,$allGarage,'No error found.');
+            if(!empty($allPost)){
+              return $this->responseData(1,$allPost,'No error found.');
+            }else{
+              return $this->responseData(0,array(),'No data found.');  
+            }            
         }else{
           return $this->responseData(0,array(),'No data found.');  
         }      
     } 
     
     public function myPosts(){
-        $post=Post::where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get(); 
+        $post=Post::with('user')->where('user_id',$this->loginUser->id)->orderBy('id','DESC')->get(); 
         $allPost=array();
-        if(!empty($allPost)){
-            foreach($allPost as $k=>$v){
+        if(!empty($post)){
+            foreach($post as $k=>$v){
               $allPost[$k]['postId']=(string)$v->id;  
               $allPost[$k]['userId']=(string)$v->user_id;  
               $allPost[$k]['title']=(string)$v->title;  
@@ -185,11 +207,48 @@ class PostsController extends CommonsController
               $allPost[$k]['is_featured']=(string) $v->is_featured;  
               $allPost[$k]['featured_date']=(string) $v->is_featured;  
               $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
+              $allPost[$k]['images']=array();               
+              $allPost[$k]['is_favorite']="0";               
+              $allPost[$k]['reviewsCount']="0";               
+              $allPost[$k]['rating']="0";  
+              if(!empty($v->user->profileImage)){
+                 $profileImage=public_path().$v->user->profileImage;    
+              }else{
+                 $profileImage="";   
+              }
+              $allPost[$k]['profileImage']=(string) $profileImage;               
+              $allPost[$k]['username']=$v->user->name;               
+              $allPost[$k]['postedTime']=date('h:i A',strtotime($v->created_at));               
             }
-            return $this->responseData(1,$allGarage,'No error found.');
+            if(!empty($allPost)){
+              return $this->responseData(1,$allPost,'No error found.');
+            }else{
+              return $this->responseData(0,array(),'No data found.');  
+            }            
         }else{
           return $this->responseData(0,array(),'No data found.');  
         }      
+    }
+    
+    public function markAsFavorite(Request $request){
+        $data=$request->all();
+        if(empty($data['post_id'])){
+            return $this->responseData(0,null,'Please enter the Post Id.');  
+        }
+        $post=FavoritePost::find($data['post_id']);
+        if(!empty($post)){
+            if(empty($post->status)){
+              $data['status']="1";
+            }else{
+              $data['status']="0"; 
+            } 
+            $post->update($data);
+            return $this->responseData(1,'Favorite status updated successfully,','No Error Found.'); 
+        }
+        $data['user_id']=$this->loginUser->id;
+        $data['status']="1";
+        FavoritePost::create($data);
+        return $this->responseData(1,'Favorite Marked successfully,','No Error Found.'); 
     }
  
 }

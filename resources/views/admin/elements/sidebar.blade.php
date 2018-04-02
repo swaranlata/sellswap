@@ -3,7 +3,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img  style="height:46px !important" src="{{URL::asset('public/'.Auth::user()->profileImage)}}" class="img-circle" alt="User Image">
+          <img  style="height:46px !important" src="{{URL::asset('public/'.@Auth::user()->profileImage)}}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{ucfirst(Auth::user()->name)}}</p>

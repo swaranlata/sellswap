@@ -33,9 +33,11 @@ Route::group(['namespace' => 'Api'],function () {
      Route::delete('/posts/delete', 'PostsController@delete');   
      Route::post('/posts/edit', 'PostsController@edit');   
      Route::post('/posts/uploadImage', 'PostsController@uploadImage');   
+     Route::post('/posts/markAsFavorite', 'PostsController@markAsFavorite');   
      Route::delete('/posts/deleteImage', 'PostsController@deleteImage');   
      Route::get('/posts/all', 'PostsController@all');   
      Route::get('/posts/myPosts', 'PostsController@myPosts');   
+    
     /* Garage */
      Route::post('/garages/add','GaragesController@add');   
      Route::delete('/garages/delete','GaragesController@delete');   
