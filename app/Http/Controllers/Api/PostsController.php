@@ -166,6 +166,8 @@ class PostsController extends CommonsController
               $allPost[$k]['latitude']=(string) $v->lat;  
               $allPost[$k]['longitude']=(string) $v->long;  
               $allPost[$k]['is_featured']=(string) $v->is_featured;  
+              $allPost[$k]['category']=(string) $v->category;  
+              $allPost[$k]['subcategory']=(string) $v->subcategory;  
               $allPost[$k]['featured_date']=(string) $v->is_featured;  
               $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
               $allPost[$k]['images']=array();               
@@ -199,6 +201,8 @@ class PostsController extends CommonsController
               $allPost[$k]['postId']=(string)$v->id;  
               $allPost[$k]['userId']=(string)$v->user_id;  
               $allPost[$k]['title']=(string)$v->title;  
+              $allPost[$k]['category']=(string)$v->category;  
+              $allPost[$k]['subcategory']=(string)$v->subcategory;  
               $allPost[$k]['description']=(string) $v->description;  
               $allPost[$k]['price']=(string) $v->price;  
               $allPost[$k]['location']=(string) $v->location;  
@@ -249,6 +253,56 @@ class PostsController extends CommonsController
         $data['status']="1";
         FavoritePost::create($data);
         return $this->responseData(1,'Favorite Marked successfully,','No Error Found.'); 
+    }
+    
+    public function favorite_list(){
+        $post=FavoritePost::where('user_id',$this->loginUser->id)->select('post_id')->get();
+        $postArray=array();
+        if(!empty($post)){
+            foreach($post as $k=>$v){
+              $postArray[]=$v->post_id; 
+            }  
+            $allFavPosts=Post::whereIn('id',$postArray)->get();
+            if(!empty($allFavPosts)){
+                foreach($allFavPosts as $k=>$v){
+                  $allPost[$k]['postId']=(string)$v->id;  
+                  $allPost[$k]['userId']=(string)$v->user_id;  
+                  $allPost[$k]['title']=(string)$v->title;  
+                  $allPost[$k]['description']=(string) $v->description;  
+                  $allPost[$k]['category']=(string) $v->category;  
+                  $allPost[$k]['subcategory']=(string) $v->subcategory;  
+                  $allPost[$k]['price']=(string) $v->price;  
+                  $allPost[$k]['location']=(string) $v->location;  
+                  $allPost[$k]['latitude']=(string) $v->lat;  
+                  $allPost[$k]['longitude']=(string) $v->long;  
+                  $allPost[$k]['is_featured']=(string) $v->is_featured;  
+                  $allPost[$k]['featured_date']=(string) $v->is_featured;  
+                  $allPost[$k]['youtube_link']=(string) $v->youtube_link;               
+                  $allPost[$k]['images']=array();               
+                  $allPost[$k]['is_favorite']="0";               
+                  $allPost[$k]['reviewsCount']="0";               
+                  $allPost[$k]['rating']="0";  
+                  if(!empty($v->user->profileImage)){
+                     $profileImage=url('/').'/public'.$v->user->profileImage;    
+                  }else{
+                     $profileImage="";   
+                  }
+                  $allPost[$k]['profileImage']=(string) $profileImage;               
+                  $allPost[$k]['username']=$v->user->name;               
+                  $allPost[$k]['postedTime']=date('h:i A',strtotime($v->created_at));               
+                }
+                if(!empty($allPost)){
+                  return $this->responseData(1,$allPost,'No error found.');
+                }else{
+                  return $this->responseData(0,array(),'No data found.');  
+                }   
+            }else{
+               return $this->responseData(0,array(),'No data found.');    
+            }
+        }else{
+           return $this->responseData(0,array(),'No data found.');   
+        }
+        
     }
  
 }

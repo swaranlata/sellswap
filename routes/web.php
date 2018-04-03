@@ -23,10 +23,10 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'],function () {
      Route::resource('sub-categories', 'Admin\SubCategoriesController');
      Route::resource('pages', 'Admin\PagesController');
      Route::resource('garages', 'Admin\GaragesController');
+     Route::resource('jobs', 'Admin\JobsController');
 });
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-Route::resource('admin/jobs', 'Admin\\JobsController');

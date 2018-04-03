@@ -26,6 +26,10 @@ class Job extends Model
      * @var array
      */
     protected $fillable = ['category', 'subcategory', 'title', 'company_name', 'job_type', 'compensation', 'location', 'lat', 'long', 'description', 'applied_link', 'user_id'];
+    
+    public function user(){
+        return $this->belongsTo('App\User','user_id');
+    }
 
     
 }
