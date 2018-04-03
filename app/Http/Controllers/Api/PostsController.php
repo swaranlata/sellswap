@@ -173,7 +173,7 @@ class PostsController extends CommonsController
               $allPost[$k]['reviewsCount']="0";               
               $allPost[$k]['rating']="0";  
               if(!empty($v->user->profileImage)){
-                 $profileImage=public_path().$v->user->profileImage;    
+                 $profileImage=url('/').'/public'.$v->user->profileImage;    
               }else{
                  $profileImage="";   
               }
@@ -212,7 +212,7 @@ class PostsController extends CommonsController
               $allPost[$k]['reviewsCount']="0";               
               $allPost[$k]['rating']="0";  
               if(!empty($v->user->profileImage)){
-                 $profileImage=public_path().$v->user->profileImage;    
+                 $profileImage=url('/').'/public'.$v->user->profileImage;    
               }else{
                  $profileImage="";   
               }
