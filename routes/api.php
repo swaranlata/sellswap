@@ -49,6 +49,12 @@ Route::group(['namespace' => 'Api'],function () {
     Route::post('/jobs/edit','JobsController@edit');   
     Route::delete('/jobs/delete','JobsController@delete');   
     Route::get('/jobs/all','JobsController@all');   
+    Route::get('/jobs/myJobs','JobsController@myJobs');   
+    /* Chat Controller */
+    Route::post('/chat/sendMessage','ChatController@sendMessage');  
+    Route::post('/chat/markAsRead','ChatController@markAsRead');  
+    Route::delete('/chat/deleteChat','ChatController@deleteChat');  
+    Route::delete('/chat/clearAllChat','ChatController@clearAllChat');  
     /* Pages */
     Route::get('/pages/privacy','PagesController@privacy'); 
     Route::get('/pages/terms','PagesController@terms'); 

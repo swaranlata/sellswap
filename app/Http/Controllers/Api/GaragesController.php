@@ -79,16 +79,16 @@ class GaragesController extends CommonsController
     
     public function edit(Request $request){
         $data=$request->all();
-        if(empty($data['garage_id'])){
+        if(empty($data['garageId'])){
             return $this->responseData(0,null,'Please enter the Garage Id.');  
         }
         if(empty($data['name'])){
             return $this->responseData(0,null,'Please enter the Garage Name.');  
         }
-        if(empty($data['start_date'])){
+        if(empty($data['startDate'])){
             return $this->responseData(0,null,'Please enter the start date.');  
         }
-        if(empty($data['end_date'])){
+        if(empty($data['endDate'])){
             return $this->responseData(0,null,'Please enter the end date.');  
         }
         if(empty($data['location'])){
@@ -106,11 +106,11 @@ class GaragesController extends CommonsController
         if(empty($data['long'])){
           $data['long']="0"; 
         }
-        if(strtotime(str_replace('/','-',$data['start_date']))>strtotime(str_replace('/','-',$data['end_date']))){
+        if(strtotime(str_replace('/','-',$data['startDate']))>strtotime(str_replace('/','-',$data['endDate']))){
             return $this->responseData(0,null,'Please check your selected end date.');     
         }
-        $data['start_date']=date('Y-m-d',strtotime(str_replace('/','-',$data['start_date'])));
-        $data['end_date']=date('Y-m-d',strtotime(str_replace('/','-',$data['end_date'])));    
+        $data['startDate']=date('Y-m-d',strtotime(str_replace('/','-',$data['startDate'])));
+        $data['endDate']=date('Y-m-d',strtotime(str_replace('/','-',$data['endDate'])));    
         $garage=Garage::find($data['garage_id']);
         $garage->update($data);
         if(!empty($garage)){
@@ -119,6 +119,7 @@ class GaragesController extends CommonsController
            return $this->responseData(0,null,'Something wrong! Please try again.');   
         }     
    }
+
     
     public function all(){
         $garage=Garage::with('users')->orderBy('id','DESC')->get(); 
@@ -127,14 +128,14 @@ class GaragesController extends CommonsController
             foreach($garage as $k=>$v){
               $allGarage[$k]['garageId']=(string)$v->id;  
               $allGarage[$k]['userId']=$v->user_id;  
-              $allGarage[$k]['garageName']=$v->name;  
+              $allGarage[$k]['name']=$v->name;  
               $allGarage[$k]['startDate']=$v->start_date;  
               $allGarage[$k]['discount']=$v->discount;  
               $allGarage[$k]['endDate']=$v->end_date;  
               $allGarage[$k]['description']=(string) $v->description;  
               $allGarage[$k]['location']=$v->location;  
-              $allGarage[$k]['latitude']=(string)$v->lat;  
-              $allGarage[$k]['longitude']=(string)$v->long;  
+              $allGarage[$k]['lat']=(string)$v->lat;  
+              $allGarage[$k]['long']=(string)$v->long;  
               $allGarage[$k]['username']=(string) $v->users->name; 
               if(!empty($v->users->profileImage)){
                  $profileImage=url('/').'/public'.$v->users->profileImage;    
@@ -164,14 +165,14 @@ class GaragesController extends CommonsController
             foreach($garage as $k=>$v){
               $allGarage[$k]['garageId']=(string)$v->id;  
               $allGarage[$k]['userId']=$v->user_id;  
-              $allGarage[$k]['garageName']=$v->name;  
+              $allGarage[$k]['name']=$v->name;  
               $allGarage[$k]['startDate']=$v->start_date;  
               $allGarage[$k]['discount']=$v->discount;  
               $allGarage[$k]['endDate']=$v->end_date;  
               $allGarage[$k]['description']=(string) $v->description;  
               $allGarage[$k]['location']=$v->location;  
-              $allGarage[$k]['latitude']=(string)$v->lat;  
-              $allGarage[$k]['longitude']=(string)$v->long;  
+              $allGarage[$k]['lat']=(string)$v->lat;  
+              $allGarage[$k]['long']=(string)$v->long;  
               $allGarage[$k]['username']=(string) $v->users->name; 
               if(!empty($v->users->profileImage)){
                  $profileImage=url('/').'/public'.$v->users->profileImage;    
